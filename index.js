@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 var http = require("http"),
 	static = require("node-static"),
 	livereload = require('livereload'),

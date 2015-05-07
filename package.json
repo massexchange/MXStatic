@@ -1,8 +1,7 @@
 {
-  "name": "MXStatic",
+  "name": "mx-static",
   "version": "0.1.0",
   "description": "static server with livereload support",
-  "main": "index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/massexchange/MXStatic.git"
@@ -11,5 +10,14 @@
   "bugs": {
     "url": "https://github.com/massexchange/MXStatic/issues"
   },
-  "homepage": "https://github.com/massexchange/MXStatic"
+  "homepage": "https://github.com/massexchange/MXStatic",
+  "preferGlobal": true,
+  "bin": {
+    "mx-static": "index.js"
+  },
+  "dependencies": {
+    "livereload": "^0.3.7",
+    "nconf": "^0.7.1",
+    "node-static": "^0.7.6"
+  }
 }
