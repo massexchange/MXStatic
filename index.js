@@ -16,7 +16,7 @@ nconf.argv().defaults({
     "live": {
         "port": 35729
     },
-    "index": false
+    "index": true
 });
 
 var staticPath = nconf.get("path");
