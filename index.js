@@ -1,33 +1,51 @@
 #!/usr/bin/env node
 
 var http = require("http"),
-	static = require("node-static"),
-	livereload = require('livereload'),
-	nconf = require("nconf");
+    path = require("path"),
+    final = require("finalhandler"),
+    serveStatic = require("serve-static"),
+    livereload = require("livereload"),
+    nconf = require("nconf"),
+    serveIndex = require("serve-index");
 
 nconf.argv().defaults({
-	"path": process.cwd(),
-	"static": {
-		"port": 80
-	},
-	"live": {
-		"port": 35729
-	}
+    "path": process.cwd(),
+    "static": {
+        "port": 80
+    },
+    "live": {
+        "port": 35729
+    },
+    "index": false
 });
 
-var path = nconf.get("path");
+var staticPath = nconf.get("path");
 var staticPort = nconf.get("static:port");
 var livePort = nconf.get("live:port");
 
-var file = new static.Server(path);
+var static = new serveStatic(staticPath);
+var index = serveIndex(staticPath, {
+    "icons": true,
+    filter: function(filename, i, files, dir) {
+        return path.extname(filename) == ".html";
+    }
+});
 var live = livereload.createServer({
-	port: livePort
+    port: livePort
 });
 
-live.watch(path);
+live.watch(staticPath);
 console.log("LiveReload server initialized, using port", livePort);
 
 var server = http.createServer(function(req, res) {
-	file.serve(req, res);
+    var done = final(req, res);
+    static(req, res, function(err) {
+        if(!nconf.get("index"))
+            return done();
+        if(err)
+            return done(err);
+
+        index(req, res, done);
+    });
 }).listen(staticPort);
 console.log("Static server initialized on port", staticPort);

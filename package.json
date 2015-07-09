@@ -1,6 +1,6 @@
 {
   "name": "mx-static",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "static server with livereload support",
   "repository": {
     "type": "git",
@@ -16,8 +16,10 @@
     "mx-static": "index.js"
   },
   "dependencies": {
-    "livereload": "^0.3.7",
     "nconf": "^0.7.1",
-    "node-static": "^0.7.6"
+    "livereload": "^0.3.7",
+    "serve-static": "^1.10.0",
+    "serve-index": "^1.7.1",
+    "finalhandler": "^0.4.0"
   }
 }
